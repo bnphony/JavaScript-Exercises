@@ -1,0 +1,119 @@
+<!-- TODO: Marcar varios checkbox mientras se sosteniene SHIFT -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hold Shift to check multiple checkboxes</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+    <div class="inbox">
+        <div class="item">
+            <input type="checkbox">
+            <p>This is an inbox layout.</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Check one item.</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Hold donw your Shift key</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Check a lower item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Everything in between should also be set to checked</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Try to do it without any libraries</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Just regular JavaScript</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Good Luck!</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Don't forget to tweet your result!</p>
+        </div>
+    </div>
+
+<script>
+const $checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+let lastChecked; // The last checkbox checked
+
+function handleCheck(e) {
+    // Check if they had the shift key down
+    // AND check thaht they are checking it
+    let inBetween = false;
+    if (e.shiftKey && this.checked) {
+        // go ahead and do what we please
+        // loop over every single checkbox
+        $checkboxes.forEach(checkbox => {
+            if (checkbox === this || checkbox === lastChecked) {
+                inBetween = !inBetween;
+            }
+            if(inBetween) checkbox.checked = true;
+        });
+    }
+
+    lastChecked = this;
+}
+
+$checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
+
+
+
+<!-- TODO: EJECICIOS APARTE -->
+const str1 = 'chatbot, como estas';
+const str2 = 'hey chatbot, como estas';
+const str3 = 'chatBOT, como estas';
+const pattern1 = new RegExp('^chatbot', 'i');
+console.log(pattern1.test(str2));
+
+const emojiString = "I love playing videogames emoji3465 it's one of my hobbie";
+const emojiPattern = new RegExp('emoji[\\d]+', 'gim');
+console.log(emojiString.replace(emojiPattern, ''));
+
+const phoneNumber = '(+34) 659-771-594';
+const phonePattern = /\(\+\d{2}\) \d{3}-\d{3}-\d{3}/;
+// const phonePattern = new RegExp('\(\\d{2}\)', 'gi');
+// const phonePattern = new RegExp('\(\\d{2}\)', 'gi');
+console.log(phonePattern);
+console.log(phoneNumber.match(phonePattern));
+
+
+const url = 'I learned a lot from exercism.org';
+const urlPatter = /[\w]+\.[\w]+/gi;
+console.log(url.match(urlPatter));
+
+const name = 'pablo, snachex.';
+const greatPattern = /user/;
+const great = 'Nice to meet you, user';
+const namePattern = /(\w+)/gi;
+const fullName = name.replace(namePattern, '$1 $2');
+console.log(name.match(namePattern));
+// console.log(great.replace(greatPattern, '$2 $1'));
+console.log(fullName);
+
+console.clear();
+const politeName = name.replace(/([a-z]+), ([a-z]+)/i, '$2 $1')
+const greetings = `Nice to meet you, ${politeName}`;
+console.log(greetings);
+
+</script>
+    
+</body>
+</html>

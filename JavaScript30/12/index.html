@@ -1,0 +1,129 @@
+<!-- TODO: Adivinar la palabra secreta -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Key Sequence Detection (KONAMI CODE)</title>
+    <link rel="icon" href="💥" />
+    <script
+      type="text/javascript"
+      src="http://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      const pressed = [];
+      const secretCode = "wesbos";
+      window.addEventListener("keyup", (e) => {
+        pressed.push(e.key);
+        // Restrict the maximo length to wesbos.length
+        // the next letter push out the first item
+        pressed.splice(
+          -secretCode.length - 1,
+          pressed.length - secretCode.length
+        );
+        if (pressed.join("").includes(secretCode)) {
+          cornify_add();
+        }
+      });
+
+
+
+
+
+      
+
+      console.clear();
+      <!-- TODO: Ejercicios Aparte -->
+      const deck = [1, 2, 3, 4, 3, 5];
+      let count = 0;
+      deck.forEach((item) => item === 3 && count++);
+      console.log(count);
+
+      const set1 = new Set([1, 2, 3]);
+      set1.forEach((item) => console.log(item));
+
+      console.clear();
+
+      // TASK #1
+      const playlist = [
+        "Court and Spark - Joni Mitchell",
+        "Big Yellow Taxi - Joni Mitchell",
+        "Court and Spark - Joni Mitchell",
+      ];
+
+      const removeDuplicate = (playList) => {
+        let newArray = new Set(playList);
+        return Array.from(newArray);
+      };
+      console.log("TASK #1");
+      const newList = removeDuplicate([]);
+      console.log(Array.from(newList));
+
+      const playlist2 = [
+        "The Fashion Show - Grace Jones",
+        "Dr. Funkenstein - Parliament",
+      ];
+      // TASK #2
+      const hasTrack = (list, track) => {
+        return list.includes(track) ? true : false;
+      };
+      console.log(hasTrack(playlist2, "Dr. Funkenstein - Parliament"));
+      //=> true
+
+      console.log(hasTrack(playlist2, "Walking in the Rain - Grace Jones"));
+
+      // TASK #3
+      const addTrack = (list, newTrack) => {
+        const setList = new Set(list);
+        setList.add(newTrack);
+        return setList;
+      };
+      console.log(addTrack(playlist2, "nuevo"));
+
+      // TASK #4
+      const deleteTrack = (list, deletedTrack) => {
+        if (list.includes(deletedTrack)) {
+          let index = list.indexOf(deletedTrack);
+          list.splice(index, 1);
+        }
+        return list;
+      };
+      const playlist3 = [
+        "The Treasure - Fra Lippo Lippi",
+        "After the Fall - Klaus Nomi",
+      ];
+
+      deleteTrack(playlist3, "The Treasure - Fra Lippo Lippi");
+      //=> ['After the Fall - Klaus Nomi']
+
+      deleteTrack(playlist3, "I Feel the Magic - Belinda Carlisle");
+      //=> ['After the Fall - Klaus Nomi']
+      console.log(playlist3);
+
+      // TASK #5
+      const listArtists = (list) => {
+        const setArtists = new Set();
+        list.forEach((songName) => {
+          let [song, artist] = songName.split(" - ");
+          setArtists.add(artist);
+        });
+        return setArtists;
+      };
+
+      const playlist4 = [
+        "All Mine - Portishead",
+        "Sight to Behold - Devendra Banhart",
+        "Sour Times - Portishead",
+      ];
+
+      console.log(listArtists(playlist4));
+      //=> ['Portishead', 'Devendra Banhart']
+
+      console.clear()
+      console.log('hola - como'.split('3').pop());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pruebas</title>
+</head>
+<body>
+
+<script>
+
+
+<!--* FUNCIONES QUE RETORNAN FUNCIONES -->
+// La version con funciones normales esta en 7/index.html
+function translate2d(dx, dy) {
+  return (x, y) => [dx + x, dy + y];
+}
+
+
+function scale2d(sx, sy) {
+  return (x, y) => [sx * x, sy * y];
+}
+
+// Recibir 2 funciones, el resultado de la 1ra es el INPUT de la 2da funcion
+// Devolver el resultado de la 2da funcion
+function composeTransform(...transformers) {
+  // EN result se almacena lo que devuelve la primera funcion
+  return (x, y) => transformers.reduce((result, tr) => tr(...result), [x, y])
+}
+
+console.log("COMPOSE TRANSFORM: ");
+const t1 = translate2d(3, 3);
+const s1 = scale2d(2, 2);
+const cambios = composeTransform(
+  t1, s1
+);
+console.log(cambios(3, 2));
+
+
+// Guardar el resultado anterior
+function memoizeTransform(f) {
+  let lastX, lastY, lastResult
+  return (x, y) => {
+    if (lastX === x && lastY === y) return lastResult;
+
+    lastX = x
+    lastY = y
+    lastResult = f(x, y)
+
+    return lastResult
+  }
+}
+
+// const memoizedTransform = memoizeTransform(fakeTransform());
+// console.log(memoizedTransform(5, 5));
+// console.log(memoizedTransform(5, 5));
+
+
+// <!-- * REST/SPREAD ARRAYS -->
+let [firstOne, secondOne] = [1, 2, 3, 4, 5];
+console.log(secondOne);
+
+let [one, two, ...rest] = [1, 2, 3, 4, 5];
+console.log([one, rest]);
+
+let deck = [1, 2, 3, 4, 5];
+function switchTwoCards([one, two, ...rest]) {
+    return [two, one, ...rest];
+}
+// console.log(switchTwoCards(deck));
+// console.log([1, 2, 3].indexOf(3));
+
+
+
+
+
+// <!-- TODO CLASES -->
+// SYNTAX PROTOTYPE
+/* 
+function Car(color, weight) {
+    this.color = color;
+    this.weight = weight;
+    this.engineRunning = false;    
+    this._privateYear = 0;
+}
+
+Car.prototype.startEngine = function() {
+    this.engineRunning = true;
+}
+
+const myCar = new Car('green', 20);
+myCar.startEngine();
+myCar.color = 'color actualizado';  
+myCar._privateYear = 444;
+console.log(myCar);
+
+const mySecondCar = new Car('purple', 50);
+mySecondCar.color = 'Cambio solo para este';
+console.log(mySecondCar);
+*/
+
+// SYNTAX CLASS
+class Car {
+    constructor(color, weight) {
+        this._color = color;
+        this._weight = weight;
+        this._engineRunning = false;
+    }
+
+    starEngine() {
+        this._engineRunning = true;
+    }
+
+    // get color() {
+    //     return this.color;
+    // }
+
+    // set color(value) {
+    //     this._color = value;
+    // }
+}
+const myCar = new Car('color inicial', 100);
+myCar.color = 'color';
+myCar.starEngine();
+// console.log(myCar._weight);
+// console.log(myCar);
+
+const mySecondCar = new Car('gree', 1);
+mySecondCar._color = 'camcio';
+mySecondCar._weight = 33333;
+// console.log(mySecondCar);   
+// console.log(myCar);
+
+
+
+// @ts-check
+
+/**
+ * Implement the classes etc. that are needed to solve the
+ * exercise in this file. Do not forget to export the entities
+ * you defined so they are available for the tests.
+ */
+
+// -> TASK #1
+function Size(width=80, height=60) {
+  this.width = width;
+  this.height = height;
+}
+
+Size.prototype.resize = function(newWidth, newHeight) {
+  this.width = newWidth;
+  this.height = newHeight;
+};
+
+
+
+// -> TASK #2
+function Position(x=0, y=0) {
+  this.x = x;
+  this.y = y;
+}
+
+Position.prototype.move = function(newX, newY) {
+  this.x = newX;
+  this.y = newY;
+};
+
+// -> TASK #3
+class ProgramWindow {
+  constructor() {
+    this._screenSize = new Size(800, 600);
+    this._size = new Size();
+    this._position = new Position();
+  }
+
+  resize(newSize) {
+    if (newSize.height < 1) {
+      newSize.height = 1;
+    }
+    if (newSize.width < 1) {
+      newSize.width = 1;
+    }
+    if (this._screenSize.height < newSize.height + this._position.y){
+      newSize.height -= (newSize.height + this._position.y) - this._screenSize.height;
+    }
+
+    if (this._screenSize.width < newSize.width + this._position.x){
+      newSize.width -= (newSize.width + this._position.x) - this._screenSize.width;
+    }
+    this._size.width = newSize.width;
+    this._size.height = newSize.height;
+    
+  }
+
+  move(newPosition) {
+    if (newPosition.x >= 0 && newPosition.y >= 0) {
+      if (this._screenSize.width < this._size.width + newPosition.x) {
+        newPosition.x -= (this._size.width + newPosition.x) -  this._screenSize.width;
+      }
+      if (this._screenSize.height < this._size.height + newPosition.y) {
+        newPosition.y -= (this._size.height + newPosition.y) - this._screenSize.height;
+      }
+      this._position.x = newPosition.x;
+      this._position.y = newPosition.y;
+    }
+  }
+
+
+}
+
+function changeWindow(newWindow) {
+  newWindow.resize(new Size(400, 300));
+  newWindow.move(new Position(100, 150));
+  return newWindow;
+}
+
+
+
+
+// <!-- TODO PRUEBA DE CLASES -->
+function Size2(width=80, height=60) {
+  this.width = width;
+  this.height = height; 
+}
+
+Size2.prototype.resize = function(newWidth, newHeight) {
+  this.width = newWidth;
+  this.height = newHeight;
+};
+
+console.log("\nPRUEBA DE CLASSES");
+
+function Position2(x=0, y=0) {
+  this.x = x;
+  this.y = y;
+}
+Position2.prototype.move = function(newX, newY) {
+  this.x = newX;
+  this.y = newY;
+}
+
+// Class
+class Window2 {
+  constructor() {
+    this._screenSize = new Size2(800, 600);
+    this._size = new Size2();
+    this._position = new Position2();
+  }
+
+  resize(newSize) {
+    let maxWidth = this._screenSize.width - this._position.x;
+    let maxHeight = this._screenSize.height - this._position.y;
+
+    const newWidth = Math.max(1, Math.min(newSize.width, maxWidth));
+    const newHeight = Math.max(1, Math.min(newSize.height, maxHeight));
+    this._size.resize(newWidth, newHeight);
+  }
+
+  // x: 750, y:650
+  // width: 100, height: 100
+  // x: 100, y: 100
+  move(newPosition) {
+    let maxX = this._screenSize.width - this._size.width;
+    let maxY = this._screenSize.height - this._size.height;
+
+    const newX = Math.max(0, Math.min(newPosition.x, maxX));
+    const newY = Math.max(0, Math.min(newPosition.y, maxY));
+
+    this._position.move(newX, newY);
+  }
+}
+
+console.log("VAMOS A VER: ");
+const programWindow = new Window2();
+const newSize = new Size2(100, 100);
+programWindow.resize(newSize);
+const newPosition = new Position2(750, 650);
+programWindow.move(newPosition);
+console.log(programWindow._position.x);
+console.log(programWindow._position.y);
+
+</script>
+    
+</body>
+</html>

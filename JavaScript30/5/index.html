@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex Panels Image Gallery</title>
+    <link rel="icon" href="https://fav.farm/🔥">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="general-content">
+        <div class="panel gallery1">
+            <p>Hey</p>
+            <p>Let's</p>
+            <p>Dance</p>
+        </div>
+        <div class="panel gallery2">
+            <p>Give</p>
+            <p>Take</p>
+            <p>Receive</p>
+        </div>
+        <div class="panel gallery3">
+            <p>Experience</p>
+            <p>It</p>
+            <p>Today</p>
+        </div>
+        <div class="panel gallery4">
+            <p>Give</p>
+            <p>All</p>
+            <p>You can</p>
+        </div>
+        <div class="panel gallery5">
+            <p>Life</p>
+            <p>In</p>
+            <p>Motion</p>
+        </div>
+    </div>
+
+<script>
+    const panels = document.querySelectorAll('.panel');
+    function updateHover() {
+        const p1 = this.querySelector('p:nth-child(1)');
+        const p3 = this.querySelector('p:nth-child(3)');
+        p1.style.setProperty('--move', '200px');
+        p3.style.setProperty('--move', '-200px');
+    }
+    panels.forEach(element => element.addEventListener('mouseover', updateHover));
+</script>
+    
+</body>
+</html>

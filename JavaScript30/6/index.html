@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+    <form class="search-form">
+        <input type="text" class="search" placeholder="City or State">
+        <ul class="suggestions">
+            <li>Filter for a city</li>
+            <li>or a state</li>
+        </ul>
+    </form>
+<script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const cities = [];
+
+    /*
+    let array1 = [1, 2, 3]
+    let otroArray1 = [];
+    otroArray1 = [...array1];
+    let otroArray2 = [];
+    otroArray2.push(array1);
+    console.log('FORMA CORRECTA: ');
+    console.log(otroArray1);
+    console.log('FORMA INCORRECTA: ');
+    console.log(otroArray2);
+*/
+    // Cargar los datos en un array
+    fetch(endpoint)
+        .then(blob => blob.json())
+        .then(data => cities.push(...data));
+
+    function findMatches(wordToMatch, cities) {
+        return cities.filter(place => {
+            // here we need to figure out if the city or state matches what
+            // was searched
+            const regex = new RegExp(wordToMatch, 'gi');
+            return place.city.match(regex) || place.state.match(regex);
+        });
+    }
+
+    // <!-- * Formatear los numeros poner una comma <,> cada 3 cifras -->
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function displayMatches() {
+        const matchArray = findMatches(this.value, cities);
+        const html = matchArray.map(place => {
+            const regex = new RegExp(this.value, 'gi');
+            const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+            const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+            return `
+                <li class="result-li">
+                    <span class="name">${cityName}, ${stateName}</span>    
+                    <span class="population">${numberWithCommas(place.population)}</span>
+                </li>
+            `;
+        }).join('');
+        $suggestions.innerHTML = html;
+        
+        // Add an event to every result
+        const $results = $suggestions.querySelectorAll('li');
+        $results.forEach(element => element.addEventListener('click', function() {
+            console.log('Se clickeo: ', this.querySelector('span.name').innerText);
+        }));
+       
+   
+    }
+
+    const $searchInput = document.querySelector('.search');
+    const $suggestions = document.querySelector('.suggestions');
+
+    // When the content of the input change
+    $searchInput.addEventListener('change', displayMatches);
+    // When the user press a key button
+    $searchInput.addEventListener('keyup', displayMatches);
+
+
+
+
+
+
+    
+    // <!-- TODO: EJERCIO APARTE --> 
+    const twoSum = (array1, array2) => {
+        let sum = 0;
+        let num1 = array1.join('');
+        let num2 = array2.join('')
+        sum = Number(num1) + Number(num2);
+        console.log(`array1: ${num1}, array2: ${num2}, sum ${sum}`);
+        return sum;
+    }
+    // console.log(twoSum([1, 2, 3], [0, 7]));
+
+    // Palindrome Number
+    const luckyNumber = (num) => {
+        let reverseNumString = String(num).split("").reverse().join("");
+        console.log('Reversed Number: ', reverseNumString);
+        if (Number(reverseNumString) === num) return true;
+        return false
+    };
+    // console.log(luckyNumber(13134));
+
+
+    const errorMessage = (value) => {
+        console.log(typeof Number(value));
+        if (value) {
+            if (isNaN(Number(value)) || Number(value) === 0) {
+                return 'mal';
+            } else {
+                return '';
+            }
+        } else {
+            return 'null';
+        }
+    }
+    // console.log(errorMessage('38 3'));
+    
+    //  COPIA DE OBJETOS
+    let dict1 = {obj1: {'hola': 'valor original'}, obj2: 2};
+    let dict2 = {...dict1};
+    dict2['obj1'] = 3;
+    dict2.obj1.hola = 'se cmabio el valor original';
+    // console.log(`DICT 1: ${dict1}, DICT 2: ${dict2}`);
+
+    // TASK #3
+    function quantities(layers) {
+        let noodles = 'noodles', sauce = 'sauce';
+        let obj = {noodles: 0, sauce: 0 };
+        layers.forEach(layer => {
+            if (layer === noodles) obj[noodles] += 50;
+            if (layer === sauce) obj[sauce] += 0.2;
+        });
+        
+        return obj;
+    }
+    const manyLayers = [
+      'sauce',
+      'noodles',
+      'béchamel',
+      'meat',
+      'mozzarella',
+      'noodles',
+      'ricotta',
+      'eggplant',
+      'béchamel',
+      'noodles',
+      'sauce',
+      'mozzarella',
+    ];
+    console.log(quantities(manyLayers));
+
+</script>
+</body>
+</html>

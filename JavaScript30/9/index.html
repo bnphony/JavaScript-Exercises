@@ -1,0 +1,174 @@
+<!-- TODO Trucos y Consejos sobre la consola -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Console Tricks!</title>
+  </head>
+  <body>
+    <p onclick="makeGreen();">xBREAKxDOWNx</p>
+
+    <script>
+      const dogs = [
+        { name: "Snickers", age: 2 },
+        { name: "hugo", age: 8 },
+      ];
+
+      function makeGreen() {
+        const p = document.querySelector("p");
+        p.style.color = "#BADA55";
+        p.style.fontSize = "50px";
+      }
+
+      // Regular
+      console.log("hello");
+
+      // Interpolated
+      console.log("hello a am %s string!", "👀");
+
+      // Styled
+      console.log("%c I am some great text", "font-size: 50px");
+
+      // warning!
+      console.warn("OH NOOO");
+
+      // Error :|
+      console.error("Error appeared!");
+
+      // Info
+      console.info("Crocodiles eat 3-4 people per year");
+
+      // Testing
+      const p = document.querySelector("p");
+      console.assert(p.classList.contains("ouch-class"), "Error no contains");
+      console.assert(1 === 1, "That is wrong!");
+
+      // Clearing
+      console.clear();
+
+      // Viewing DOM Elements
+      console.log(p);
+      console.dir(p);
+
+      // Grouping together
+      dogs.forEach((dog) => {
+        console.groupCollapsed(`${dog.name}`);
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+        console.groupEnd(`${dog.name}`);
+      });
+
+      // Counting
+      console.count("wes");
+      console.count("wes");
+      console.count("wes der  3343 wes");
+
+      // Timing
+      // console.time('fetching data');
+      fetch("https://api.github.com/users/wesbos")
+        .then((data) => data.json())
+        .then((data) => {
+          // console.timeEnd('fetching data');
+          // console.log(data);
+        });
+
+      // Table
+      const simgpleObj = { hola: "1", como: "2" };
+      console.table(simgpleObj);
+
+      <!-- TODO EJERCICIOS APARTE -->
+      console.clear();
+      const error = new Error("Opps");
+      console.log(error.message);
+
+      try {
+        throw new Error("no");
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      class ArgumentError extends Error {}
+
+      class OverHumidityError extends Error {
+        constructor(humidity) {
+          super(`The percentage of humidity is ${humidity}! OverHumidity!`);
+          this.humidity = humidity;
+        }
+      }
+
+      function checkHumidityLevel(humidityPercentage) {
+        if (humidityPercentage > 70) {
+          try {
+            throw new OverHumidityError(humidityPercentage);
+          } catch (error) {
+            return error.message;
+          }
+        }
+        return "Good";
+      }
+
+      console.log(checkHumidityLevel(100));
+
+      function reportOverheating(temperature) {
+        if (temperature === null) {
+          return new ArgumentError();
+        } else if (temperature > 500) {
+          return new OverheatingError(temperature);
+        }
+        return `Everything is good, Temperature: ${temperature}%`;
+      }
+
+      console.log(reportOverheating(5));
+
+      console.clear();
+
+      const deck = [1, 3, 9, 3, 7];
+      const newDeck = deck.reduce((acc, currentCard) => {
+        currentCard === 3 ? acc.push(3, 3, 3) : acc.push(currentCard);
+        return acc;
+      }, []);
+
+      // console.log(newDeck);
+
+      function middleTwo(deck) {
+        const deckMiddle = parseInt(deck.length / 2);
+        let mitades = [];
+        if (deck.length % 2 === 0) {
+          mitades.push(deckMiddle - 1, deckMiddle);
+        } else {
+          mitades.push(deckMiddle);
+        }
+        const middleDeck = deck.filter((card, index) =>
+          mitades.includes(index)
+        );
+        return middleDeck;
+      }
+
+      const deck2 = [6, 10, 5, 9, 4, 3, 1, 2, 6, 8];
+      console.log(middleTwo(deck2));
+
+      const deck4 = [1, 2, 3, 5, 6, 10];
+      const sandwitchDeck = (deck) => {
+        let [first, last] = [deck.shift(), deck.pop()];
+        let middle = parseInt(deck.length / 2);
+        deck.splice(middle, 0, last, first);
+        return deck;
+      };
+      // console.log(sandwitchDeck(deck4));
+
+      console.clear();
+      console.log("FLAT MAP");
+      function threeOfEachThree(deck) {
+        return deck.map((card) =>
+          card === 3 ? [card, card, card] : card
+        );
+      }
+
+      const deck333 = [1, 3, 4, 5, 3, 9];
+      console.log(threeOfEachThree(deck333));
+    </script>
+  </body>
+</html>
