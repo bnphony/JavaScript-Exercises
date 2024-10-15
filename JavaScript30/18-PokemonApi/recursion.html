@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursion</title>
+</head>
+<body>
+    <h1>Recursion</h1>
+
+<script>
+    // <!-- TODO: Ejercicios de Recursion -->
+    // function factorial(n) {
+    //     console.log("INCIO, ", n);
+    //     let total = 0;
+    //     if (n <= 0) {
+    //         return total;
+    //     }
+    //     console.log("ANTE DEL RETURN, ", n);
+    //     return total + n * factorial(n - 1) ;
+    // }
+
+    // console.log(factorial(5));
+
+    let buscar = /(\w+) \1 \1 /;
+    let string1 = "row row row row your boat";
+    console.log(buscar.test(string1));
+    console.log(string1.match(buscar));
+
+    // Funcion ejecutada automaticamente al crearse
+    (function automaticallyExecute() {
+        console.log("HOLA SE EJECUTO AL NACER: ");
+    })();
+
+    console.clear();
+
+    // Mixins
+    let motionModule = (function() {
+        return {
+            glideMixin: function(obj) {
+                obj.glide = () => console.log('Gliding on the water');
+            },
+            flyMixin: function(obj) {
+                obj.fly = () => console.log('Flying, woosh!');
+            }
+        }
+    })();
+
+    class Duck {
+        constructor() {
+            this._color = 'red',
+            this._size = 100;
+        }
+
+        getColor() {
+            return this._color;
+        }
+        setColor(newColor) {
+            this._color = newColor;
+        }
+        getSize() {
+            return this._size;
+        }
+        setSize(newSize) {
+            this._size = newSize;
+        }
+    }
+
+    const pajarito = new Duck();
+    motionModule.glideMixin(pajarito);
+    pajarito.glide();
+
+
+    let motionModule2 = (function() {
+        return {
+            volar: function(obj) {
+                obj.volar = () => console.log('puedo volar');
+            }
+        }
+    })();
+    motionModule2.volar(pajarito);
+    pajarito.volar();
+
+    function impartial(x, y, z) {
+        console.log(`x: ${x}, y: ${y}, z: ${z}, this: ${this}`);
+        return x + y + z;
+    }
+
+    const partialFn = impartial.bind(5, 2);
+    partialFn(5, 0, 8);
+
+    console.clear();
+
+    // <!-- TODO: RECUSIVIDAD -->
+    function getFactorial(n) {
+        console.log("ANTES ", n);
+        if (n <= 1) {
+            return 1;
+        }
+        console.log("DESPUEST DE IF", n);
+        return n * getFactorial(n - 1);
+    }
+    // console.log(getFactorial(5));
+
+    // <!-- TODO: PIZZA EXERCISE -->
+    const MARGHERITA = 'Margherita';
+    const CAPRESE = 'Caprese';
+    const FORMAGGIO = 'Formaggio';
+    const EXTRASAUCE = 'ExtraSauce';
+    const EXTRATOPPINGS = 'ExtraToppigs';
+    const pizzaCost = { 'Margherita': 7, 'Caprese': 9, 'Formaggio': 10 };
+    const extraCost = {'ExtraSauce': 1, 'ExtraToppigs': 2 };
+
+    // Normal Function
+    function pizzaPrice(pizza, ...extras) {
+        let total = 0;
+        extras.forEach(extra => {
+            total += extraCost[extra];
+        });
+
+        return total + pizzaCost[pizza];
+    }
+    // Recursive Function
+    function pizzaPrice2(pizza, ...extras) {
+        // Base case: If there are no extras, return the price of the pizza
+        if (extras.length <= 0) {
+            return pizzaCost[pizza] || 0;
+        }
+
+        // Recursive case: Add the cost of the first extra and call the function again with the rest
+        let [firstExtra, ...restExtra] = extras;
+        return extraCost[firstExtra] + pizzaPrice2(pizza, ...restExtra);
+    }
+    console.log(pizzaPrice2(CAPRESE, EXTRATOPPINGS));
+
+
+    function PizzaOrder(pizza = '', ...extras) {
+        this.pizza = pizza;
+        this.extras = extras;
+    }
+
+    function orderPrice(args) {
+        let total = 0;
+        args.forEach((pizzaOrder) => {
+            console.log(pizzaOrder);
+            total += pizzaCost[pizzaOrder.pizza];
+            pizzaOrder.extras.forEach(extra => total += extraCost[extra]);
+        });
+        return total;
+    }
+
+    const marguerita = new PizzaOrder(MARGHERITA);
+    const caprese = new PizzaOrder(CAPRESE, EXTRATOPPINGS);
+    console.log(orderPrice([marguerita, caprese]));
+
+
+
+
+
+
+</script>
+    
+</body>
+</html>

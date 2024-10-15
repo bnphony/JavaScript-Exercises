@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Some Exercersises</title>
+  </head>
+  <body>
+    <h1>Some Exercersises from Exercism.org</h1>
+    <script>
+      const twoFer = (name = "") => {
+        return `One for ${name ? name : "you"}, one for me`;
+      };
+      console.log(twoFer());
+      console.log(twoFer("Maria"));
+
+      console.clear();
+      const colorCode = (...colors) => {
+        let result = [];
+        if (Array.isArray(colors[0])) colors = colors[0];
+
+        colors.forEach((color) => console.log(color));
+        return result;
+      };
+
+      const COLOR = {
+        black: 0,
+        brown: 1,
+        red: 2,
+        orange: 3,
+        yellow: 4,
+        green: 5,
+        blue: 6,
+        violet: 7,
+        grey: 8,
+        white: 9,
+      };
+      const colorCode2 = (...colors) => {
+        if (Array.isArray(colors) && colors.length > 1) {
+          let result = [];
+          colors.forEach((color) => result.push(COLOR[color]));
+          return result;
+        }
+        return COLOR[colors];
+      };
+      // console.log(colorCode(['black', 'yellow', 'green']));
+      // console.log(colorCode('green', 'white', 'grey'));
+      console.log("hola", colorCode2(["black"]));
+
+      console.clear();
+
+      // <!-- TODO: GIGASECOND exercise -->
+      const gigasecond = 1000000000;
+      let secondsLeft = gigasecond;
+      let hours = Math.floor(secondsLeft / 3600);
+      secondsLeft = secondsLeft % 3600;
+      let minutes = Math.floor(secondsLeft / 60);
+      secondsLeft = secondsLeft % 60;
+      let date = new Date(Date.UTC(2011, 3, 25));
+
+      let days = Math.floor(hours / 24);
+      hours = hours % 24;
+      let years = Math.floor(days / 365);
+      days = days % 365;
+      console.log(
+        `Years: ${years}, Days: ${days}, ${hours}:${minutes}:${secondsLeft}`
+      );
+      let addYears = date.setFullYear(date.getFullYear() + years);
+      let addDays = date.setDate(date.getDate() + days);
+      let addHours = date.setHours(date.getHours() + hours);
+      let addMinutes = date.setMinutes(date.getMinutes() + minutes);
+      let addSeconds = date.setSeconds(date.getSeconds() + secondsLeft);
+      // let newDate2 = date.parse(`${hours}:${minutes}:${secondsLeft}`);
+      console.log(new Date(addSeconds));
+      // <!-- ? GIGASECOND Solution -->
+      let dateExample = new Date(Date.UTC(2020, 2, 7));
+      let GIGASECOND = 10 ** 12;
+      console.log(
+        "Solucion Gigasecond: ",
+        new Date(dateExample.getTime() + GIGASECOND)
+      );
+
+      console.clear();
+      // <!-- TODO: DNA to RNA -->
+      const COMPLEMENTS = {
+        G: "C",
+        C: "G",
+        T: "A",
+        A: "U",
+      };
+      const toRNA = (dna) => {
+        dna = dna.toUpperCase();
+        let newRNA = '';
+        for (let i = 0, n = dna.length; i < n; i++) {
+            newRNA += COMPLEMENTS[dna[i]] || '';
+        }
+        return newRNA;
+      };
+      console.log(toRNA(''));
+      console.clear();
+
+      // <!-- TODO: Earth's year -->
+      let earthSeconds = 31557600;
+      const earthDays = 365.25;
+      const orbitalAge = {
+        'mercury': 0.2408467,
+        'venus': 0.61519726,
+        'earth': 1,
+        'mars': 1.8808158,
+        'jupiter': 11.862615,
+        'saturn': 29.447498,
+        'uranus': 84.016846,
+        'neptune': 164.79132
+      }
+      const age = (planet, seconds) => {
+        let secondsLeft = seconds;
+        let hours = secondsLeft / 3600;
+        secondsLeft = secondsLeft % 3600;
+        let minutes = Math.floor(secondsLeft / 60);
+        secondsLeft = secondsLeft % 60;
+
+        let days = hours / 24;
+        hours = hours % 24;
+        // law of 3
+        let planetDays = orbitalAge[planet] * 365.25;
+        let years = (days / planetDays).toFixed(2);
+        // days = days % 365;
+        console.log(`Years: ${years}, Days: ${days}, ${hours}:${minutes}:${secondsLeft}`);
+        return date;
+      };
+      age('venus', 189839836);
+      console.clear();
+      
+
+      // <!-- TODO: PANGRAM - 'every letter' -->
+      const isPangram = (sentence) => {
+        sentence = sentence.toLowerCase();
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+        console.log(sentence);
+        return alphabet.every(letter => {
+          console.log('letter: ', letter, ': ', sentence.includes(letter));
+          return sentence.includes(letter);});
+      };
+      console.log(isPangram('"Five quacking Zephyrs jolt my wax bed."'));
+  
+
+    </script>
+  </body>
+</html>

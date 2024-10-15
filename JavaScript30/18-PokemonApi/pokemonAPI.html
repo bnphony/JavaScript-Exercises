@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example Pokemon API</title>
+  </head>
+  <body>
+    <input type="text" id="pokemonName" placeholder="Enter Pokemon name" />
+    <button onclick="fetchData()">Fetch Pokemon</button>
+    <br />
+    <img src="" alt="Pokemon Sprite" id="pokemonSprite" style="display: none" />
+
+    <hr/>
+    <button class="btnBind" type="button" name="botonx">Ejemplo Bind()</button>
+    <script>
+      const link = "https://pokeapi.co/api/v2/pokemon/";
+      const $pokemonName = document.querySelector("#pokemonName");
+      const $imgElement = document.getElementById("pokemonSprite");
+
+      async function fetchData() {
+        try {
+          const name = $pokemonName.value.toLowerCase();
+          const res = await fetch(`${link + name}`);
+          if (!res.ok) {
+            throw new Error("Could not fetch resource");
+          }
+          const data = await res.json();
+          const pokemonSprite = data.sprites.front_default;
+          $imgElement.src = pokemonSprite;
+          $imgElement.style.display = "block";
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      // let sampleData = [2, 3, 5, 8, 10];
+
+      // for (let i = 0; i < 3; i++) {
+      //   let randomNumber = Math.floor(Math.random() * (sampleData.length + 2));
+      //   try {
+      //     if (sampleData[7]) {
+      //       console.log(`CORRECTO # ${i+1}`);
+      //       break;
+      //     } else {
+      //       throw new  Error('No');
+      //     }
+      //   } catch (error) {
+      //     console.log(`Intento # ${i + 1}`);
+      //   }
+      // }
+
+      // <!-- TODO: Ejemplos de .bind() -->
+      const greet = function(...args) {
+        return `Hello, ${this.name}, ${args}`;
+      }
+      const person = { name: 'Bryan' };
+      const boundGreet = greet.bind(person);
+      const bound2 = greet.bind({ name: 'nuevo' });
+      console.log(boundGreet(3));
+      console.log(bound2());
+
+      const greet2 = function() {
+        return `Hello, ${this + arguments[0]}`;
+      }
+      const prueba1 = greet2.bind('amarrillo ', 'rojo', 3, 4, 5);
+      console.log(prueba1());
+
+      console.clear();
+      const add = function(x, y) {
+        console.log(this, arguments);
+        return `${x} - ${y}`;
+      }
+      const addFive = add.bind(1, 2, 3, 9);
+      console.log(addFive(7, 8));
+      console.log(addFive(4, 5));
+
+
+      console.clear();
+      // <!-- TODO: Ejemplos de Promesas -->
+      function delay(time) {
+        return new Promise(function(resolve, reject) {
+          if (isNaN(time)) {
+            reject(new Error('El tiempo es incorrecto!'));
+          } else {
+            setTimeout(() => resolve(`Solucionado en ${time}`), time);
+          }
+        });
+      }
+
+      
+      async function delayNuevo(time) {
+        try {
+          const res = await delay(2000);
+          console.log(res);
+        } catch(error) {
+          console.log(error);
+        }
+      }
+      // delayNuevo(2000);
+
+
+      // delay(1000)
+      //   .then(() => console.log('El tiempo es una ilusion'))
+      //   .catch((error) => console.error(error));
+
+
+      // <!-- TODO: Promise.all() -->
+      /* 
+      let promises = [delay(1000), delay(2000), delay(3000)];
+      // # TRADITIONAL METHOD
+      Promise.all(promises)
+      .then((results) => {
+          results.forEach((promesa, index) => {
+            console.log(`Resultado de la promesa #${index + 1}: ${promesa}`)
+          });
+        })
+        .catch((error) => {
+            console.error('Error');
+          });
+        
+      // # USING ASYNC/AWAIT METHOD
+      async function handlePromises(prs) {
+        try {
+          const results = await Promise.all(prs);
+          results.forEach((promise, index) => {
+            console.log(`R #${index+1}: ${promise}`);
+          });
+        } catch(error) {
+          console.error(error);
+        }
+      }
+
+      handlePromises(promises);
+      */
+
+      const sampleData2 = [3, 4, 5, 7, 9, 20];
+      const nuevoSample2 = sampleData2.map(String);
+      console.log(nuevoSample2.shift());  
+      console.log(nuevoSample2);
+      </script>
+  </body>
+</html>
