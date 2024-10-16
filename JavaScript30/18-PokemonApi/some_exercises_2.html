@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercism</title>
+</head>
+<body>
+    <h1>Exercism</h1>
+    <ul>
+        <li>1 -> Matrix</li>
+        <li>2 -> Bob</li>
+    </ul>
+    
+<script>
+    //<!-- ?: Some exercises from exercism.org -->
+
+    // <!-- TODO: Matri -->
+    class Matrix {
+        constructor(matrixString = '') {
+            this._matrixString = matrixString.split('\n');
+        }
+
+        get rows() {
+            let rowsMatrix = this._matrixString.map(row => row.match(/\d+/gi).map(Number));
+            return rowsMatrix;
+        }
+        get columns() {
+            let columns = [];
+           this.rows.forEach(row => {
+             row.forEach((item, index) => {
+                if (!columns[index]) {
+                    columns.push([])
+                }
+                columns[index].push(item);
+            });
+           });
+           return columns;
+            
+        }
+    }
+    let prueba = '3 4 5 38';
+    let pattern = /\d{1}/gi;
+    console.log(prueba.split(''));
+
+    const n1 = new Matrix('2 5\n3 4\n 60 7\n8 9');
+    console.log(n1.rows);
+    console.log(n1.columns);
+
+    console.clear();
+
+    // <!-- TODO: BOB -->
+
+    const responses = {
+        'ends?': 'Sure',
+        'CAPITAL_LETTERS': 'Whoa, chill out!',
+        'YELL_QUESTION?': "Calm down, I know what I'm doing!",
+        'nothing': 'Fine. Be that way!',
+        'some_else': 'Whatever'
+    }
+    const hey = (message) => {
+        message = message.trim();
+        let response = '';
+        let patternYELLQUESTION = /^(?=.*[A-Z])[A-Z0-9,.*@#!\-!() ]+\?$/; 
+        let patternCAPITALLETTERS = /^(?=.*[A-Z])[A-Z0-9,.*@#!\-!() ]+$/;
+        console.log('prueba: ', message.match(patternCAPITALLETTERS));
+        switch(true){
+            case patternYELLQUESTION.test(message):
+                response = responses['YELL_QUESTION?'];
+                break;
+            case message.endsWith('?'):
+                response = responses['ends?'];
+                break;
+            case patternCAPITALLETTERS.test(message):
+                response = responses['CAPITAL_LETTERS'];
+                break;
+            case message === '':
+                response = responses['nothing'];
+                break;
+            default: 
+                response = responses['some_else'];
+        }
+        return response;
+    };
+    let pattern2 = /((?=[A-Z]+)[A-Z0-9,. ]+|[^0-9 ]+)\?$/g; 
+    console.log('3434443?'.match(pattern2));
+    let pattern4 = /^[A-Z0-9,.\- ]+$/;
+    let regex = /^(?=.*[A-Z])[A-Z0-9,.\- ]+$/;
+    console.log(regex.test('4f 0. DSDDD44'));
+    // console.log('Tom-ay-to, tom-aaaah-to.'.match(pattern4));
+
+    console.log(hey('45 DO4 3!'));
+
+    console.clear();
+
+
+
+
+
+    // <!-- ?: SOLUCION BOB # 2-->
+
+
+    const isSilence = message => message.trim().length === 0;
+    const isShouting = message => /[a-z]/i.test(message) && message === message.toUpperCase();
+    const isQuestion = message => message.trim().endsWith('?');
+    const isShoutingQuestion = message => isShouting(message) && isQuestion(message);
+    const isDefault = () => true;
+    const rules = [
+        { test: isSilence, response: 'Fine. Be that way!' },
+        { test: isShoutingQuestion, response: 'Calm down, I know what I\'m doing!' },
+        { test: isShouting, response: 'Whoa, chill out!' },
+        { test: isQuestion, response: 'Sure.' },
+        { test: isDefault, response: 'Whatever.' },
+        ];
+    const hey2 = message => rules
+    .find(item => item.test(message)).response;
+    console.log(hey2('1, 2, 3,43 GO, 334, GO!'));
+
+
+
+</script>
+</body>
+</html>

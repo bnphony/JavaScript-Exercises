@@ -91,7 +91,7 @@ nav ul {
   opacity: 1;
 }
 
-.dropdownBackround {
+.dropdownBackground {
   width: 100px;
   height: 100px;
   position: absolute;
@@ -116,7 +116,7 @@ nav ul {
   height: 20px;
   display: block;
   background: white;
-  transform: tranlsateY(-50%) rotate(45deg);
+  transform: translateY(-50%) rotate(45deg);
 }
 
 .bio {
@@ -130,6 +130,10 @@ nav ul {
 .bio img {
   float: left;
   margin-right: 20px;
+}
+
+.courses {
+  min-width: 300px;
 }
 
 .courses li {
