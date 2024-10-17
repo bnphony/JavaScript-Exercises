@@ -7,65 +7,51 @@ const discounts = {
 };
 
 // Create the groups
-const createGroups = (basket, pattern) => {
+const createGroups = (basket, options) => {
     let groups = [];
-    basket.forEach(book => {
-        let addedToGroup = false;
-        // If there no elements, this step is skipted
-        for (let group of groups) {
-            if (!group.includes(book) && group.length < limit) {
-                group.push(book);
-                addedToGroup = true;
-                break;
+    // console.log('options: ', options);
+    let banGroups = [];
+    options.forEach((option, optionNumber) => {
+        let gAux = [];
+        option.forEach(limit => {
+            let g = {limit, 'items': []};
+            gAux.push(g);
+        });
+        groups.push(gAux);
+        let count = 0;
+        basket.forEach(book => {
+            let addedToGroup = false;
+            // If there no elements, this step is skipted
+            for (let group of groups[optionNumber]) {
+                if (!group.items.includes(book) && group.items.length < group.limit) {
+                    group.items.push(book);
+                    count++;
+                    addedToGroup = true;
+                    break;
+                }
             }
-        }
-        // Create a new group and add the book
-        if (!addedToGroup) {
-            groups.push([book]);
-        }
+        });
+        if (count !== basket.length) banGroups.push(optionNumber);
     });
-    return groups;
+
+    const finalGroups = groups.filter((group, index) => !banGroups.includes(index));
+    return finalGroups;
 }
 
 const cost = (basket) => {
     // Calculate the total price
-    let results = [];
-    let total = 0;
-    let options = createOptions(basket.length);
-    let groups = createGroups(basket, 5);
-    let sizes = groups.map(item => item.length);
-    let maxSize = Math.max(...sizes);
-    if (maxSize >= 3) {
-        for (let i=3; i <= maxSize; i++) {
-            groups = createGroups(basket, i);
-            let total = 0;
-            groups.forEach(group => {
-                let groupSize = group.length;
-                total += groupSize * discounts[groupSize];
-            });
-            results.push(total);
-        }
-    } else {
-        groups.forEach(group => {
-        let groupSize = group.length;
-        total += groupSize* discounts[groupSize];
-        });
-        results.push(total);
-        
-    }
-    return Math.round(Math.min(...results) * 100);
+    let orderBasket = orderFrequency(basket);
+    let options = createOptions(orderBasket.length);
+    let groups = createGroups(orderBasket, options);
+    return bestOption(groups);
 }
 // Function to find partitions of a number excluding groups with two or more 1's
 function createOptions(number) {
     let result = [];
-
+    
     function findParts(target, max, current = []) {
         if (target === 0) {
-            // Exclude partitions that have more than one 1
-            const onesCount = current.filter(n => n === 1).length;
-            if (onesCount <= 1) {
-                result.push(current);
-            }
+            result.push(current);
             return;
         }
 
@@ -80,12 +66,62 @@ function createOptions(number) {
     return result;
 }
 
+function calculateTotalCost(partition) {
+    let totalCost = 0;
+    partition.forEach(group => {
+        let groupSize = group.items.length;
+        if (discounts[groupSize]) {
+            totalCost += groupSize * discounts[groupSize];
+        }
+    });
+    return totalCost;
+}
+
+function bestOption(partitions) {
+    let minCost = Infinity;
+    let best = null;
+    partitions.forEach(partition => {
+        let totalCost = calculateTotalCost(partition);
+        if (totalCost < minCost) {
+            minCost = totalCost;
+            best = [...partition];
+        }
+    })
+    console.log('Best option:', best, ' = $', minCost);
+    return Math.round(minCost * 100);
+}
 
 
 
-let baskquet1 =  [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3];
+
+// let baskquet1 =   [2, 2];
+// let baskquet1 = [1, 1, 2, 2, 3, 3, 4, 5, 1, 1, 2, 2, 3, 3, 4, 5];
+// let baskquet1 = [1, 1, 1, 1, 1];
+
+// let baskquet1 = [1, 1, 2, 3, 4, 4, 5, 5];
+let baskquet1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3];
+
+
+function orderFrequency(basket) {
+    // Count the frequency of each item
+    let count = {};
+    basket.forEach(item => {
+        count[item] = (count[item] || 0) + 1;
+    });
+
+    // Sort the entries by frequency in descending order
+    let orderCount = Object.entries(count).sort((a, b) => b[1] - a[1]);
+
+    // Create the new frequency array by flat mapping over the sorted entries
+    let newFrequency = orderCount.flatMap(([item, count]) => Array(count).fill(Number(item)));
+
+    return newFrequency;
+}
+
 
 // * END BOOK STORE
+
+
 
 
 
@@ -105,6 +141,5 @@ let baskquet1 =  [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3];
 // * Main Function to take the others
 export function exercises1() {
     console.log(cost(baskquet1));
-    
 
 }
