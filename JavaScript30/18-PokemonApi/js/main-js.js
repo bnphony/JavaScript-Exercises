@@ -1,4 +1,6 @@
 import {exercises1} from './exercises-1.js'
+import { codeVitaExercises } from './CodeVitaExercises.js'
+import { codeVita1 } from './CodeVita1.js'
 
 
 
@@ -8,4 +10,11 @@ import {exercises1} from './exercises-1.js'
 */
 
 
-exercises1();
+// exercises1();
+
+// codeVitaExercises();
+
+
+// TODO: CODEVITA EXERCISES
+codeVita1();
+
