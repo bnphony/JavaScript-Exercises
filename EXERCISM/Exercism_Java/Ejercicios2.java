@@ -1,6 +1,8 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Ejercicios2 {
 
@@ -29,7 +31,7 @@ public class Ejercicios2 {
     }
     
     public static void main(String[] args) {
-        System.out.print(String.format("Hola %s", "como"));
+        // System.out.print(String.format("Hola %s", "como"));
         int num1 = 0;
         num1 ++;
         int[] array1 = {1, 2, 3};
@@ -41,6 +43,27 @@ public class Ejercicios2 {
         // Trabajar con BITS
         // trabajarConBits();
 
-        
+        // Trabajando con Listas<tipo>
+        List<String> someStrings = new ArrayList<>();
+        someStrings.add("hola");
+        someStrings.add("mundo");
+        // System.out.println(someStrings);
+        List<String> someStrings2 = Arrays.asList("value1", "item2");
+        // System.out.println(someStrings2.get(0));
+        // System.out.println(Integer.MIN_VALUE);
+        // System.out.println(Arrays.asList(1, 3, 4).contains(1));
+
+        // throw new IllegalArgumentException();
+        int flags = 0b1010;
+        int mask = 0b0010;
+        System.out.println(4 >> 1);
+       
+
+
     }
+
+   
+   
 }
+
+
