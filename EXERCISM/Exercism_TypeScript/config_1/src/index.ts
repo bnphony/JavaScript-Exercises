@@ -1,5 +1,6 @@
 import { Console } from 'console';
 import * as http from 'http';
+import { mainApp1 } from './app1';
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -10,6 +11,7 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => console.log(`Server on port ${3000}`))
 
 // TODO: Desde aqui van los ejercicios de TypeScript
+
 
 // ? Ejercicio 1) Calcular la edad en diferentes planetas
 const planetTime: Record<string, number> = {
@@ -99,12 +101,15 @@ function isPangram(text: string): boolean {
     let result: boolean = alphabet.every(letter => text.includes(letter))
     return result
 }
-console.log(isPangram("The quick brown fox jumps over he lazy dog."))
+// console.log(isPangram("The quick brown fox jumps over he lazy dog."))
 // console.log([false, false, false].every(item => item === false))
 
 main();
 function main(): void{
     console.log("funciona");
     // console.log(age('mercury', 2134835688));
+
+    // TODO: Funciones del archivo APP1.ts
+    mainApp1()
     
 }
