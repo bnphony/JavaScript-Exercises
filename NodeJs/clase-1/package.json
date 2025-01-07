@@ -13,5 +13,11 @@
     "bryan"
   ],
   "author": "Bryan Jhoel Tarco Taipe",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "picocolors": "1.1.0"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
 }
