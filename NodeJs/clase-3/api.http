@@ -1,0 +1,36 @@
+### Recuperar todas las peliculas
+GET http://localhost:3000/movies
+
+### Recuperar una pelicula por id
+GET http://localhost:3000/movies/8fb17ae1-bdfe-45e5-a871-4772d7e526b8
+
+### Recupear todas las peliculas por genero
+GET http://localhost:3000/movies?genre=ACTion
+
+
+### Crear una pelicula
+POST http://localhost:3000/movies
+Content-Type: application/json
+
+{
+    "sql": "select * from users",
+    "title": "The Godfather",
+    "year": 1975,
+    "director": "Francis Ford Coppola",
+    "duration": 175,
+    "poster": "http://localhost:3000/image.jpg",
+    "genre": [
+        "Crime", "Drama"
+    ]
+
+}
+
+### Actualizar una pelicula
+PATCH http://localhost:3000/movies/6a58ed1f-2d8d-42fd-8b29-7b3dc86640ec
+Content-Type: application/json
+
+{
+    "id": "No puedes cambiar el ID, porque ZOD ignora cualquier campo que no este en sus validaciones",
+    "title": "titulo cambiando",
+    "year": 1939
+}

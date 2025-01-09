@@ -1,0 +1,40 @@
+### Obtener todas las peliculas
+GET http://localhost:3000/movies
+
+
+### Filtrar por genero
+GET http://localhost:3000/movies?genre=Action
+
+
+### Buscar pelicula por ID
+GET http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+
+
+### Crear una pelicula
+POST http://localhost:3000/movies
+Content-Type: application/json
+
+{
+    "title": "Nueva Pelicula",
+    "year": 1993,
+    "director": "Lana Wachowski",
+    "duration": 136,
+    "poster": "https://i.ebayimg.com/images/g/QFQAAOSwAQpfjaA6/s-l1200.jpg",
+    "genre": [
+      "Action",
+      "Sci-Fi"
+    ]
+
+}
+
+### Eliminar una pelicula
+DELETE http://localhost:3000/movies/c8a7d63f-3b04-44d3-9d95-8782fd7dcfaf
+
+### Actualizar la informacion de una pelicula
+PATCH http://localhost:3000/movies/41178da9-f79c-4273-a29f-7b23c7572e01
+Content-Type: application/json
+
+{
+  "year": 1981
+}
+
