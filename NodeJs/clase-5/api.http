@@ -7,7 +7,7 @@ GET http://localhost:3000/movies?genre=Action
 
 
 ### Buscar pelicula por ID
-GET http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+GET http://localhost:3000/movies/bf6a4a92-ced1-11ef-8e5f-98e743135570
 
 
 ### Crear una pelicula
@@ -15,7 +15,7 @@ POST http://localhost:3000/movies
 Content-Type: application/json
 
 {
-    "title": "Nueva Pelicula",
+    "title": "Nueva Pelicula 2",
     "year": 1993,
     "director": "Lana Wachowski",
     "duration": 136,
@@ -28,10 +28,10 @@ Content-Type: application/json
 }
 
 ### Eliminar una pelicula
-DELETE http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+DELETE http://localhost:3000/movies/0b7bd27f-cef2-11ef-a19b-98e743135570
 
 ### Actualizar la informacion de una pelicula
-PATCH http://localhost:3000/movies/d2c5adf6-d00e-4960-9e3e-fc5c6700a37b
+PATCH http://localhost:3000/movies/ddec4525-cef0-11ef-a19b-98e743135570
 Content-Type: application/json
 
 {
