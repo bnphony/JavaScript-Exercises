@@ -72,6 +72,7 @@ export class MovieModel {
         const [ uuidResult ] = await connection.query('SELECT UUID() uuid;')
         const [{ uuid }] = uuidResult
 
+
         // TODO: Aqui se coloca 'uuid' directamente en el query, 
         // TODO: por que 'uuid' es creado por el backend
         try {
@@ -112,17 +113,27 @@ export class MovieModel {
 
     static async delete ({ id }) {
         try {
-            await connection.query(
+            const resultMovie = await connection.query(
                 `DELETE FROM movie 
                  WHERE id = UUID_TO_BIN(?);`, [ id ]
             )
-            return true
+            const [{ affectedRows }] = resultMovie
+
+            const resultGenres = await connection.query(
+                `DELETE FROM movie_genres 
+                 WHERE movie_id = UUID_TO_BIN(?);`,[ id ]
+            )
+
+            const [{ affectedRowsGenres }] = resultGenres
+            if (affectedRows > 0) return true
+            
+            return false
         } catch (e) {
             throw new Error('Error deleting a movie')
-        }
-        
+        }        
     }
 
+    
     static async update ({ id, input }) {
         const [moviesID] = await connection.query(
             `SELECT id FROM movie 
@@ -147,6 +158,8 @@ export class MovieModel {
         // Agregar el ID del registro
         values.push(id);
 
+        
+
         try {
             await connection.query(
                 `UPDATE movie SET ${updates.join(', ')} 
@@ -156,7 +169,55 @@ export class MovieModel {
             const [movies] = await connection.query(
                 `SELECT title, year, director, duration, rate, poster, BIN_TO_UUID(id) id FROM movie 
                  WHERE id = UUID_TO_BIN(?);`, [ id ]
-            )          
+            )
+            
+            // UPDATE THE GENRES LIST
+            const { genre } = input 
+            if (genre) {                
+                let queryGenre = genre.map(g => `LOWER('${g}')`).join(', ')
+                const newGenresId = []
+                if (queryGenre) {
+                    const [newGenres] = await connection.query(
+                        `SELECT id, name FROM genre 
+                        WHERE LOWER(name) in (${queryGenre});`
+                    )
+
+                    newGenresId = newGenres.map(item => item.id)
+                }
+
+                const [oldGenres] = await connection.query(
+                    `SELECT genre_id FROM movie_genres 
+                    WHERE movie_id = UUID_TO_BIN(?);`, [ id ]
+                )
+                const oldGenresId = oldGenres.map(item => item.genre_id)
+                const toCreate = newGenresId.filter(value => !oldGenresId.includes(value))
+                const toDelete = oldGenresId.filter(value => !newGenresId.includes(value))
+                
+                // Create new genres
+                try {
+                    toCreate.forEach(async (genreID) => {
+                        await connection.query(
+                            `INSERT INTO movie_genres(movie_id, genre_id) 
+                            VALUES (UUID_TO_BIN(?), ?);`, [ id, genreID ]
+                        )
+                    })
+                } catch (e) {
+                    console.log('Error creating new genres!')
+                }
+                // Delete genres
+                try {
+                    toDelete.forEach(async (genreID) => {
+                        await connection.query(
+                            `DELETE FROM movie_genres 
+                            WHERE movie_id = UUID_TO_BIN(?) AND genre_id = ?;`,
+                            [ id, genreID ]
+                        )
+                    })  
+                } catch (e) {
+                    console.log('Error deleting old genres!')
+                }
+            }
+
 
             return movies[0]
             

@@ -1,0 +1,12 @@
+### Loguearse
+POST http://localhost:3000/login/
+
+
+### Registrar un Usuario
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "bryan",
+    "password": "123456"
+}

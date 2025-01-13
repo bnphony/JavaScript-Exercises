@@ -28,13 +28,16 @@ Content-Type: application/json
 }
 
 ### Eliminar una pelicula
-DELETE http://localhost:3000/movies/0b7bd27f-cef2-11ef-a19b-98e743135570
+DELETE http://localhost:3000/movies/bbec0e5f-cf94-11ef-b3d8-98e743135570
 
 ### Actualizar la informacion de una pelicula
-PATCH http://localhost:3000/movies/ddec4525-cef0-11ef-a19b-98e743135570
+PATCH http://localhost:3000/movies/4afcee5e-cf95-11ef-b3d8-98e743135570
 Content-Type: application/json
 
 {
-  "year": 1981
+  "year": 1983,
+  "genre": [
+    
+  ]
 }
 
